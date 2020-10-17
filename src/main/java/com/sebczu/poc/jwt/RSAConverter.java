@@ -18,7 +18,7 @@ public class RSAConverter {
   private final static Base64.Encoder encoder = Base64.getMimeEncoder();
   private final static Base64.Decoder decoder = Base64.getMimeDecoder();
 
-  public String jwkToPem(String jwk) {
+  public static String jwkToPem(String jwk) {
     try {
       RSAKey key = RSAKey.parse(jwk);
 
@@ -42,7 +42,7 @@ public class RSAConverter {
     return null;
   }
 
-  public String publicPemToJwk(String pem) {
+  public static String publicPemToJwk(String pem) {
     try {
       RSAPublicKey rsaPublicKey = publicPemToRSAPublicKey(pem);
 
@@ -59,7 +59,7 @@ public class RSAConverter {
     return null;
   }
 
-  public String privatePemToJwk(String privatePem, String publicPem) {
+  public static String privatePemToJwk(String privatePem, String publicPem) {
     try {
       byte[] decoded = decoder.decode(privatePem);
       KeyFactory keyFactory = KeyFactory.getInstance("RSA");
@@ -81,7 +81,7 @@ public class RSAConverter {
     return null;
   }
 
-  private RSAPublicKey publicPemToRSAPublicKey(String pem) throws NoSuchAlgorithmException, InvalidKeySpecException {
+  private static RSAPublicKey publicPemToRSAPublicKey(String pem) throws NoSuchAlgorithmException, InvalidKeySpecException {
     byte[] decoded = decoder.decode(pem);
     KeyFactory keyFactory = KeyFactory.getInstance("RSA");
     return (RSAPublicKey) keyFactory.generatePublic(new X509EncodedKeySpec(decoded));
