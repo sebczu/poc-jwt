@@ -11,23 +11,25 @@ import com.nimbusds.jwt.SignedJWT;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 public class JWTCreator {
 
   private final static JWSAlgorithm algorithm = JWSAlgorithm.RS256;
 
-  public String createByJwk(String privateJwk, String subject, LocalDateTime expirationDate) {
+  public String createByJwk(String privateJwk, String subject, Duration duration) {
     try {
       RSAKey rsaPrivate = RSAKey.parse(privateJwk);
       JWSSigner signer = new RSASSASigner(rsaPrivate);
 
-      SignedJWT jwt = new SignedJWT(getHeader(rsaPrivate), getClaims(subject, expirationDate));
+      SignedJWT jwt = new SignedJWT(getHeader(), getClaims(subject, duration));
       jwt.sign(signer);
-      String tokenJWT = jwt.serialize();
+      String tokenJwt = jwt.serialize();
       System.out.println("token:");
-      System.out.println(tokenJWT);
-      return tokenJWT;
+      System.out.println(tokenJwt);
+      return tokenJwt;
 
     } catch (ParseException e) {
       e.printStackTrace();
@@ -37,22 +39,26 @@ public class JWTCreator {
     return null;
   }
 
-  public String createByPem(String privatePem, String publicPem, String subject, LocalDateTime expirationDate) {
+  public String createByPem(String privatePem, String publicPem, String subject, Duration duration) {
     String privateJwk = RSAPemConverter.privatePemToJwk(privatePem, publicPem);
-    return createByJwk(privateJwk, subject, expirationDate);
+    return createByJwk(privateJwk, subject, duration);
   }
 
-  private JWSHeader getHeader(RSAKey rsaPrivate) {
+  private JWSHeader getHeader() {
     return new JWSHeader.Builder(algorithm)
-        .keyID(rsaPrivate.getKeyID())
         .build();
   }
 
-  private JWTClaimsSet getClaims(String subject, LocalDateTime expirationDate) {
+  private JWTClaimsSet getClaims(String subject, Duration duration) {
     return new JWTClaimsSet.Builder()
         .subject(subject)
-        .expirationTime(Timestamp.valueOf(expirationDate))
+        .expirationTime(getExpirationDate(duration))
         .build();
+  }
+
+  private Date getExpirationDate(Duration duration) {
+    LocalDateTime expirationDate = LocalDateTime.now().plus(duration);
+    return Timestamp.valueOf(expirationDate);
   }
 
 }
