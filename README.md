@@ -1,5 +1,5 @@
 ### **POC-JWT**
-**jwt**
+**java + nimbus-jose-jwt + jwt + rsa**
 
 #### Build lib
 ```bash
