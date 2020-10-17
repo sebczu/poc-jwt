@@ -17,13 +17,13 @@ public class RSAJwkConverter {
       if (key.isPrivate()) {
         byte[] privateKeyEncoded = key.toRSAPrivateKey().getEncoded();
         String privateKey = addPrefixAndPostfixForPrivateKey(encoder.encodeToString(privateKeyEncoded));
-        System.out.println("private key[pem]:");
+        System.out.println("converted private key[pem]:");
         System.out.println(privateKey);
         return privateKey;
       } else {
         byte[] publicKeyEncoded = key.toRSAPublicKey().getEncoded();
         String publicKey = addPrefixAndPostfixForPublicKey(encoder.encodeToString(publicKeyEncoded));
-        System.out.println("public key[pem]:");
+        System.out.println("converted public key[pem]:");
         System.out.println(publicKey);
         return publicKey;
       }

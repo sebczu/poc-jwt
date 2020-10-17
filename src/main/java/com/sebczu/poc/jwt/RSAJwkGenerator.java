@@ -21,8 +21,10 @@ public class RSAJwkGenerator {
       privateKey = rsaKey.toJSONString();
       publicKey = rsaKey.toPublicJWK().toJSONString();
 
-      System.out.println("private key:\n" + privateKey);
-      System.out.println("public key:\n" + publicKey);
+      System.out.println("private key[jwk]:");
+      System.out.println(privateKey);
+      System.out.println("public key[jwk]:");
+      System.out.println(publicKey);
 
     } catch (JOSEException e) {
       e.printStackTrace();
