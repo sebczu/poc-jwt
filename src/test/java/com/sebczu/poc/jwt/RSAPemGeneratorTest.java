@@ -13,8 +13,8 @@ public class RSAPemGeneratorTest {
     generator.generate();
     String publicKey = generator.getPublicKey();
 
-    String pemPublicKey = RSAConverter.jwkToPem(publicKey);
-    String jwkPublicKey = RSAConverter.publicPemToJwk(pemPublicKey);
+    String pemPublicKey = RSAJwkConverter.jwkToPem(publicKey);
+    String jwkPublicKey = RSAPemConverter.publicPemToJwk(pemPublicKey);
 
     assertEquals(publicKey, jwkPublicKey);
   }
@@ -25,9 +25,9 @@ public class RSAPemGeneratorTest {
     String privateKey = generator.getPrivateKey();
     String publicKey = generator.getPublicKey();
 
-    String pemPrivateKey = RSAConverter.jwkToPem(privateKey);
-    String pemPublicKey = RSAConverter.jwkToPem(publicKey);
-    String jwkPrivateKey = RSAConverter.privatePemToJwk(pemPrivateKey, pemPublicKey);
+    String pemPrivateKey = RSAJwkConverter.jwkToPem(privateKey);
+    String pemPublicKey = RSAJwkConverter.jwkToPem(publicKey);
+    String jwkPrivateKey = RSAPemConverter.privatePemToJwk(pemPrivateKey, pemPublicKey);
 
     assertEquals(privateKey, jwkPrivateKey);
   }

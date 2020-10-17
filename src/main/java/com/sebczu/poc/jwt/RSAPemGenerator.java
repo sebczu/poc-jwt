@@ -25,11 +25,13 @@ public class RSAPemGenerator {
       byte[] privateKeyEncoded = keyPair.getPrivate().getEncoded();
       byte[] publicKeyEncoded = keyPair.getPublic().getEncoded();
 
-      privateKey = encoder.encodeToString(privateKeyEncoded);
-      publicKey = encoder.encodeToString(publicKeyEncoded);
+      privateKey = RSAJwkConverter.addPrefixAndPostfixForPrivateKey(encoder.encodeToString(privateKeyEncoded));
+      publicKey = RSAJwkConverter.addPrefixAndPostfixForPublicKey(encoder.encodeToString(publicKeyEncoded));
 
-      System.out.println("private key:\n-----BEGIN PRIVATE KEY-----\n" + privateKey + "\n-----END PRIVATE KEY-----");
-      System.out.println("public key:\n-----BEGIN PUBLIC KEY-----\n" + publicKey + "\n-----END PUBLIC KEY-----");
+      System.out.println("private key[pem]:");
+      System.out.println(privateKey);
+      System.out.println("public key[pem]:");
+      System.out.println(publicKey);
     } catch (NoSuchAlgorithmException e) {
       e.printStackTrace();
     }

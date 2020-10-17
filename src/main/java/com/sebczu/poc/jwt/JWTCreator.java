@@ -25,7 +25,8 @@ public class JWTCreator {
       SignedJWT jwt = new SignedJWT(getHeader(rsaPrivate), getClaims(subject, expirationDate));
       jwt.sign(signer);
       String tokenJWT = jwt.serialize();
-      System.out.println("token:\n" + tokenJWT);
+      System.out.println("token:");
+      System.out.println(tokenJWT);
       return tokenJWT;
 
     } catch (ParseException e) {
@@ -37,7 +38,7 @@ public class JWTCreator {
   }
 
   public String createByPem(String privatePem, String publicPem, String subject, LocalDateTime expirationDate) {
-    String privateJwk = new RSAConverter().privatePemToJwk(privatePem, publicPem);
+    String privateJwk = RSAPemConverter.privatePemToJwk(privatePem, publicPem);
     return createByJwk(privateJwk, subject, expirationDate);
   }
 
