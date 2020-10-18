@@ -6,17 +6,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RSAPemGeneratorTest {
 
-  RSAJwkGenerator generator = new RSAJwkGenerator();
+  RSAPemGenerator generator = new RSAPemGenerator();
 
   @Test
   public void shouldGeneratePublicKey() {
     generator.generate();
     String publicKey = generator.getPublicKey();
 
-    String pemPublicKey = RSAJwkConverter.jwkToPem(publicKey);
-    String jwkPublicKey = RSAPemConverter.publicPemToJwk(pemPublicKey);
+    String jwkPublicKey = RSAPemConverter.publicPemToJwk(publicKey);
+    String pemPublicKey = RSAJwkConverter.jwkToPem(jwkPublicKey);
 
-    assertEquals(publicKey, jwkPublicKey);
+    assertEquals(publicKey, pemPublicKey);
   }
 
   @Test
@@ -25,10 +25,9 @@ public class RSAPemGeneratorTest {
     String privateKey = generator.getPrivateKey();
     String publicKey = generator.getPublicKey();
 
-    String pemPrivateKey = RSAJwkConverter.jwkToPem(privateKey);
-    String pemPublicKey = RSAJwkConverter.jwkToPem(publicKey);
-    String jwkPrivateKey = RSAPemConverter.privatePemToJwk(pemPrivateKey, pemPublicKey);
+    String jwkPrivateKey = RSAPemConverter.privatePemToJwk(privateKey, publicKey);
+    String pemPrivateKey = RSAJwkConverter.jwkToPem(jwkPrivateKey);
 
-    assertEquals(privateKey, jwkPrivateKey);
+    assertEquals(privateKey, pemPrivateKey);
   }
 }
