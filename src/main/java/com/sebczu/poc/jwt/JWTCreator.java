@@ -11,15 +11,15 @@ import com.nimbusds.jwt.SignedJWT;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
-import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.temporal.TemporalAmount;
 import java.util.Date;
 
 public class JWTCreator {
 
-  private final static JWSAlgorithm algorithm = JWSAlgorithm.RS256;
+  private final static JWSAlgorithm ALGORITHM = JWSAlgorithm.RS256;
 
-  public String createByJwk(String privateJwk, String subject, Duration duration) {
+  public String createByJwk(String privateJwk, String subject, TemporalAmount duration) {
     try {
       RSAKey rsaPrivate = RSAKey.parse(privateJwk);
       JWSSigner signer = new RSASSASigner(rsaPrivate);
@@ -39,24 +39,24 @@ public class JWTCreator {
     return null;
   }
 
-  public String createByPem(String privatePem, String publicPem, String subject, Duration duration) {
+  public String createByPem(String privatePem, String publicPem, String subject, TemporalAmount duration) {
     String privateJwk = RSAPemConverter.privatePemToJwk(privatePem, publicPem);
     return createByJwk(privateJwk, subject, duration);
   }
 
   private JWSHeader getHeader() {
-    return new JWSHeader.Builder(algorithm)
+    return new JWSHeader.Builder(ALGORITHM)
         .build();
   }
 
-  private JWTClaimsSet getClaims(String subject, Duration duration) {
+  private JWTClaimsSet getClaims(String subject, TemporalAmount duration) {
     return new JWTClaimsSet.Builder()
         .subject(subject)
         .expirationTime(getExpirationDate(duration))
         .build();
   }
 
-  private Date getExpirationDate(Duration duration) {
+  private Date getExpirationDate(TemporalAmount duration) {
     LocalDateTime expirationDate = LocalDateTime.now().plus(duration);
     return Timestamp.valueOf(expirationDate);
   }
