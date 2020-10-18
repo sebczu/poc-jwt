@@ -39,9 +39,9 @@ public class RSAJwkConverter {
   public static String addPrefixAndPostfixForPrivateKey(String privateKey) {
     StringBuilder builder = new StringBuilder();
     builder.append("-----BEGIN PRIVATE KEY-----");
-    builder.append(System.lineSeparator());
+    builder.append("\n");
     builder.append(privateKey);
-    builder.append(System.lineSeparator());
+    builder.append("\n");
     builder.append("-----END PRIVATE KEY-----");
     return builder.toString();
   }
@@ -49,9 +49,9 @@ public class RSAJwkConverter {
   public static String addPrefixAndPostfixForPublicKey(String publicKey) {
     StringBuilder builder = new StringBuilder();
     builder.append("-----BEGIN PUBLIC KEY-----");
-    builder.append(System.lineSeparator());
+    builder.append("\n");
     builder.append(publicKey);
-    builder.append(System.lineSeparator());
+    builder.append("\n");
     builder.append("-----END PUBLIC KEY-----");
     return builder.toString();
   }

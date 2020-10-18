@@ -67,12 +67,12 @@ public class RSAPemConverter {
   }
 
   private static String getBodyPublicKey(String publicKey) {
-    String publicKeyBody = publicKey.replace("-----BEGIN PUBLIC KEY-----" + System.lineSeparator(), "");
-    return publicKeyBody.replace(System.lineSeparator() + "-----END PUBLIC KEY-----", "");
+    String publicKeyBody = publicKey.replace("-----BEGIN PUBLIC KEY-----\n", "");
+    return publicKeyBody.replace("\n-----END PUBLIC KEY-----", "");
   }
 
   private static String getBodyPrivateKey(String privateKey) {
-    String privateKeyBody = privateKey.replace("-----BEGIN PRIVATE KEY-----" + System.lineSeparator(), "");
-    return privateKeyBody.replace(System.lineSeparator() + "-----END PRIVATE KEY-----", "");
+    String privateKeyBody = privateKey.replace("-----BEGIN PRIVATE KEY-----\n", "");
+    return privateKeyBody.replace("\n-----END PRIVATE KEY-----", "");
   }
 }
